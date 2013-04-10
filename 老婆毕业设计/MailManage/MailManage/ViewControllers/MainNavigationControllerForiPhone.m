@@ -35,4 +35,18 @@
     // Dispose of any resources that can be recreated.
 }
 
+#ifdef __IPHONE_6_0
+//ios 6 )supported
+- (BOOL)shouldAutorotate{
+    return YES;
+}
+-(NSUInteger)supportedInterfaceOrientations{
+    return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
+}
+#endif
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+	return UIInterfaceOrientationIsPortrait(interfaceOrientation);
+}
 @end
