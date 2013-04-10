@@ -41,6 +41,8 @@
         emlListInfoElement.subject = [self decode:[subjectInfoArr objectAtIndex:3] type:[subjectInfoArr objectAtIndex:2] charset:[subjectInfoArr objectAtIndex:1]];
     }
     
+    emlListInfoElement.uidl = uidl;
+    
     return [emlListInfoElement autorelease];
 }
 
@@ -66,7 +68,7 @@
 
 - (NSString *)decode:(NSString *)str type:(NSString *)type charset:(NSString *)charset
 {
-    if ([self searchWithSourceStr:type andReg:@"B"] != nil) {//base64
+    if ([self searchWithSourceStr:type andReg:@"B"] != nil||[self searchWithSourceStr:type andReg:@"b"] != nil) {//base64
         NSData *decodeData = [GTMBase64 decodeString:str];
         if (decodeData == nil) {
             return nil;

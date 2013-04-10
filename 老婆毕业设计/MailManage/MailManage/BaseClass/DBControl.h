@@ -32,6 +32,8 @@
 - (BOOL)emlIsAnalyzed:(NSString *)uidl;
 //插入邮件原文解析信息
 - (void)insertEmailContentJson:(NSString *)contentJson uidl:(NSString *)uidl;
-//
+//获取所有uidl
 - (NSMutableArray *)selectUidl;
+//获取某封邮件的ContentJson
+- (NSString *)getContentJson:(NSString *)uidl;
 @end

@@ -10,6 +10,9 @@
 #import "SBJsonParser.h"
 #import "EmlHeaderInfoCell.h"
 #import "EmlListInfoElement.h"
+#import "DBControl.h"
+#import "EmlAnalyze.h"
+#import "EmlViewController.h"
 
 @interface InBoxEmailViewControllerForiPhone () <UITableViewDataSource,UITableViewDelegate>
 {
@@ -39,8 +42,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.title = @"收件箱";
 	// Do any additional setup after loading the view.
-    emlListTb = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-44*2)];
+    emlListTb = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-44)];
     emlListTb.dataSource = self;
     emlListTb.delegate = self;
     [self.view addSubview:emlListTb];
@@ -82,6 +86,30 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    EmlListInfoElement *emlListInfoElement = [_emlArr objectAtIndex:indexPath.row];
+    BOOL isNeedAnalyzed = [[DBControl shareDBControl] emlIsAnalyzed:emlListInfoElement.uidl];
+    if (!isNeedAnalyzed) {
+        //需要解析,先解析，再读取
+        [self analyzeEml:emlListInfoElement.uidl];
+    }
     
+    NSString *contentJsonStr = [[DBControl shareDBControl] getContentJson:emlListInfoElement.uidl];
+    EmlViewController *emlViewController = [[EmlViewController alloc] initWithNibName:nil bundle:nil];
+    emlViewController.uidl = emlListInfoElement.uidl;
+    emlViewController.contentJson = contentJsonStr;
+    emlViewController.name = emlListInfoElement.name;
+    emlViewController.eml = emlListInfoElement.eml;
+    emlViewController.subject = emlListInfoElement.subject;
+    [self.navigationController pushViewController:emlViewController animated:YES];
+    [emlViewController release];
+}
+
+- (void)analyzeEml:(NSString *)uidl
+{
+    EmlAnalyze *emlAnalyze = [[EmlAnalyze alloc] init];
+    NSString *documentsDirectory = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+    NSString *emlFileDirectory = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"EmlFiles/%@.eml",uidl]];
+    
+    [emlAnalyze analyzeEmlFileWith:[NSString stringWithContentsOfFile:emlFileDirectory encoding:NSUTF8StringEncoding error:nil] uidl:uidl];
 }
 @end

@@ -12,12 +12,14 @@
 @synthesize name;
 @synthesize eml;
 @synthesize subject;
+@synthesize uidl;
 
 - (void)dealloc
 {
     self.name = nil;
     self.eml = nil;
     self.subject = nil;
+    self.uidl = nil;
     [super dealloc];
 }
 

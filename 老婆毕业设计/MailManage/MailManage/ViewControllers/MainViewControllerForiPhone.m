@@ -11,6 +11,7 @@
 #import "DBControl.h"
 #import "EmlListAnalyze.h"
 #import "EmlListInfoElement.h"
+#import "AppDelegate.h"
 
 @interface MainViewControllerForiPhone () <UITableViewDataSource, UITableViewDelegate>
 {
@@ -60,15 +61,7 @@
     emailTb.delegate = self;
     [self.view addSubview:emailTb];
     
-    refreshItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refreshItemPressed:)];
-    writeEmailItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(writeEmailItemPressed:)];
-    
-    toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - KToolBarH - self.navigationController.navigationBar.frame.size.height, self.view.frame.size.width, KToolBarH)];
-    [toolBar setItems:[NSArray arrayWithObjects:refreshItem,writeEmailItem, nil] animated:YES];
-//    [self.view addSubview:toolBar];
-    
-    //
-
+    [self addToolBar];
 }
 
 - (void)didReceiveMemoryWarning
@@ -134,5 +127,25 @@
     return [emlListInfoArray autorelease];
 }
 
+- (void)addToolBar
+{
+    refreshItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refreshItemPressed:)];
+    writeEmailItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(writeEmailItemPressed:)];
+    
+    toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-KToolBarH-44, self.view.frame.size.width, KToolBarH)];
+    [toolBar setItems:[NSArray arrayWithObjects:refreshItem,writeEmailItem, nil] animated:YES];
+    [self.view addSubview:toolBar];
+}
+
+- (void)refreshItemPressed:(id)sender
+{
+    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+    [appDelegate refreshItemPressed:sender];
+}
+
+- (void)writeEmailItemPressed:(id)sender
+{
+    
+}
 
 @end

@@ -20,5 +20,6 @@
 @property (strong, nonatomic) MainViewControllerForiPad *viewControllerForiPad;
 @property (strong, nonatomic) MainNavigationControllerForiPhone *navigationControllerForiPhone;
 
+- (void)refreshItemPressed:(id)sender;
 
 @end

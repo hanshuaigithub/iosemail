@@ -13,5 +13,5 @@
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *eml;
 @property (nonatomic, copy) NSString *subject;
-
+@property (nonatomic, copy) NSString *uidl;
 @end

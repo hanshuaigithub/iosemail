@@ -11,5 +11,8 @@
 @interface EmlViewController : UIViewController
 
 @property (nonatomic, retain) NSString *contentJson;
-
+@property (nonatomic, retain) NSString *name;
+@property (nonatomic, retain) NSString *eml;
+@property (nonatomic, retain) NSString *subject;
+@property (nonatomic, retain) NSString *uidl;
 @end

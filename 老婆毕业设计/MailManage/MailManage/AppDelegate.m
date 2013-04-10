@@ -64,7 +64,6 @@
     }
     
     [self.window makeKeyAndVisible];
-    [self addToolBar];
     return YES;
 }
 
@@ -95,26 +94,9 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
-#pragma mark - Private
-
-- (void)addToolBar
-{
-    refreshItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refreshItemPressed:)];
-    writeEmailItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(writeEmailItemPressed:)];
-    
-    toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.window.viewForBaselineLayout.frame.size.height - KToolBarH, self.window.viewForBaselineLayout.frame.size.width, KToolBarH)];
-    [toolBar setItems:[NSArray arrayWithObjects:refreshItem,writeEmailItem, nil] animated:YES];
-    [self.window addSubview:toolBar];
-}
-
 - (void)refreshItemPressed:(id)sender
 {
     [socketControl downLoadAllEmail];
-}
-
-- (void)writeEmailItemPressed:(id)sender
-{
-    
 }
 
 - (void)test

@@ -216,4 +216,20 @@ static DBControl *dbControll = nil;
     return [uidlArr autorelease];
 
 }
+
+- (NSString *)getContentJson:(NSString *)uidl
+{
+    __block NSString *contentJsonStr = [NSString string];
+    [self.dbQueue inDatabase:^(FMDatabase *db)   {
+        [db open];
+        NSString *sql = [NSString stringWithFormat:@"select CONTENTJSON from emailuidltb where UIDL = ?"];
+        FMResultSet *rs = [db executeQuery:sql,uidl];
+        while ([rs next]) {
+            contentJsonStr = [rs stringForColumn:@"CONTENTJSON"];
+        }
+        [db close];
+    }];
+    return contentJsonStr;
+}
+
 @end
